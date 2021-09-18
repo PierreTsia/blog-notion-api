@@ -1,14 +1,15 @@
 import { Handler } from '@netlify/functions'
 import { Client } from '@notionhq/client'
 
-const ARTICLES_DB_ID = process.env.ARTICLES_DB_ID as string //'bc716e48cf8546e080e7c5cc6ac33abd'
+const ARTICLES_DB_ID = process.env.ARTICLES_DB_ID as string
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 })
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = async (event) => {
   const filter = event.queryStringParameters?.filter
+  // eslint-disable-next-line camelcase
   const notionQuery: { database_id: string; filter?: any } = {
     database_id: ARTICLES_DB_ID,
     ...(filter && {
