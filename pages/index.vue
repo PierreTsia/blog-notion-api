@@ -5,8 +5,8 @@
 <script lang="ts">
 import {
   defineComponent,
-  onMounted,
   useContext,
+  useFetch,
   ref,
 } from '@nuxtjs/composition-api'
 
@@ -14,21 +14,24 @@ export default defineComponent({
   setup() {
     const { $axios } = useContext()
     const articles = ref([])
-    onMounted(async () => {
-      const res = await $axios.$get('/get-articles', {
-        params: {
-          filter: {
-            property: 'Tags',
-            multi_select: {
-              contains: 'JAM Stack',
-            },
-          },
+
+    const params = {
+      filter: {
+        property: 'Tags',
+        multi_select: {
+          contains: 'JAM Stack',
         },
-      })
+      },
+    }
+
+    const { fetch, fetchState } = useFetch(async () => {
+      const res = await $axios.$get('/get-articles', { params })
       articles.value = res.results
     })
 
-    return { articles }
+    fetch()
+
+    return { articles, fetchState }
   },
 })
 </script>
