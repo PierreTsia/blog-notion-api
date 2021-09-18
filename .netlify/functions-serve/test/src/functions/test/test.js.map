@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": ["../../home/ptsiakkaros/git/blog-notion-api/functions/test/test.ts"],
+  "sourceRoot": "/tmp/tmp-14344-6KOZFaS02CYp",
+  "sourcesContent": ["import { Handler } from '@netlify/functions'\n\nexport const handler: Handler = async (event, context) => {\n  const { name = 'stranger' } = event.queryStringParameters as any\n\n  return {\n    statusCode: 200,\n    body: JSON.stringify({\n      message: `Hello, ${name}!`,\n    }),\n  }\n}\n"],
+  "mappings": ";;;;;;;;;AAAA;AAAA;AAAA;AAEO,IAAM,UAAmB,OAAO,OAAO,YAAY;AACxD,QAAM,EAAE,OAAO,eAAe,MAAM;AAEpC,SAAO;AAAA,IACL,YAAY;AAAA,IACZ,MAAM,KAAK,UAAU;AAAA,MACnB,SAAS,UAAU;AAAA;AAAA;AAAA;",
+  "names": []
+}
