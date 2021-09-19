@@ -1,14 +1,10 @@
 <template>
   <div class="py-8 flex flex-wrap md:flex-nowrap">
     <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-      <div class="flex flex-wrap justify-items-start">
-        <Chip
-          v-for="tag in tags"
-          :key="tag.id"
-          :color="tag.color"
-          class="m-1"
-          >{{ tag.name }}</Chip
-        >
+      <div v-if="tags.length" class="flex flex-wrap justify-items-start">
+        <Chip v-for="tag in tags" :key="tag.id" class="m-1">{{
+          tag.name
+        }}</Chip>
       </div>
       <span class="mt-2 pl-2 text-gray-500 text-md">{{ articleDate }}</span>
       <div>
@@ -23,6 +19,7 @@
         {{ description }}
       </p>
       <nuxt-link
+        v-if="article"
         :to="articleRoute(article)"
         class="text-green-500 inline-flex items-center mt-4"
         >Read More

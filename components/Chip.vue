@@ -1,7 +1,15 @@
 <template>
   <span
-    :class="`bg-${color}-500`"
-    class="text-xxs px-3 font-medium text-base text-white rounded-full py-1.5 whitespace-nowrap"
+    class="
+      text-xxs
+      px-3
+      font-medium
+      text-base text-green-900
+      rounded-full
+      py-1.5
+      whitespace-nowrap
+      bg-green-200
+    "
   >
     <slot />
   </span>
@@ -9,12 +17,5 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
-export default defineComponent({
-  props: {
-    color: {
-      type: String,
-      default: 'yellow',
-    },
-  },
-})
+export default defineComponent({})
 </script>
