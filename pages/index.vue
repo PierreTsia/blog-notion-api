@@ -1,37 +1,14 @@
 <template>
-  <Tutorial />
+  <div class="min-h-screen text-gray-400 bg-gray-900">
+    <ArticlesList />
+  </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  useContext,
-  useFetch,
-  ref,
-} from '@nuxtjs/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
+import ArticlesList from '@/components/ArticlesList.vue'
 
 export default defineComponent({
-  setup() {
-    const { $axios } = useContext()
-    const articles = ref([])
-
-    const params = {
-      filter: {
-        property: 'Tags',
-        multi_select: {
-          contains: 'JAM Stack',
-        },
-      },
-    }
-
-    const { fetch, fetchState } = useFetch(async () => {
-      const res = await $axios.$get('/get-articles', { params })
-      articles.value = res.results
-    })
-
-    fetch()
-
-    return { articles, fetchState }
-  },
+  components: { ArticlesList },
 })
 </script>

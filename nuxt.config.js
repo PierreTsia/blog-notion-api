@@ -31,4 +31,13 @@ export default {
     baseURL: `${BASE_URL}/.netlify/functions`,
   },
   build: {},
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'page',
+        path: '/blog/:pageId/:slug',
+        component: resolve(__dirname, 'pages/blog/Page.vue'),
+      })
+    },
+  },
 }

@@ -25,6 +25,8 @@ export const handler: Handler = async (event) => {
       body: JSON.stringify(myPage),
     }
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e)
     return { statusCode: 500, body: e }
   }
 }
