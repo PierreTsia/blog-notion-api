@@ -1,5 +1,11 @@
 <template>
-  <div class="min-w-full bg-gray-900 w-full md:max-w-3xl mx-auto pt-20">
+  <div class="min-w-full bg-gray-900 w-full md:max-w-3xl mx-auto">
+    <img
+      v-if="cover"
+      alt="page-cover"
+      class="object-none object-left-top w-full h-32"
+      :src="cover"
+    />
     <div
       class="
         lg:max-w-3xl
@@ -11,9 +17,9 @@
       "
     >
       <div class="font-sans">
-        <p class="text-base md:text-sm text-green-500 font-bold">
-          <a
-            href="#"
+        <span class="text-base md:text-sm text-green-500 font-bold">
+          <nuxt-link
+            to="/"
             class="
               text-base
               md:text-sm
@@ -22,24 +28,24 @@
               no-underline
               hover:underline
             "
-            >BACK TO BLOG</a
+            >BACK TO BLOG</nuxt-link
           >
-        </p>
+        </span>
         <h1
           class="
             font-bold font-sans
             break-normal
-            text-gray-900
+            text-gray-200
             pt-6
             pb-2
             text-3xl
             md:text-4xl
           "
         >
-          Welcome to Minimal Blog
+          {{ title }}
         </h1>
         <p class="text-sm md:text-base font-normal text-gray-600">
-          Published 19 February 2019
+          Published {{ date }}
         </p>
       </div>
 
@@ -127,4 +133,48 @@
     <!--/Next & Prev Links-->
   </div>
 </template>
-<script lang="ts"></script>
+<script lang="ts">
+import {
+  defineComponent,
+  useContext,
+  useRoute,
+  ref,
+  useFetch,
+  computed,
+} from '@nuxtjs/composition-api'
+import { format } from 'date-fns'
+
+export default defineComponent({
+  setup() {
+    const route = useRoute()
+    const { $axios } = useContext()
+    const state = ref({ page: {} as any, blocks: [] })
+
+    useFetch(async () => {
+      state.value = await $axios
+        .$get('/get-article', {
+          params: { articleId: route.value.params.pageId },
+        })
+        .then((res) => ({
+          blocks: res.blocks.results,
+          page: res.page,
+        }))
+    })
+
+    const title = computed(
+      () => state.value.page?.properties?.Name?.title?.[0]?.plain_text ?? ''
+    )
+
+    const date = computed(
+      () =>
+        (state.value.page?.created_time &&
+          format(new Date(state.value.page?.created_time), 'PP')) ||
+        ''
+    )
+
+    const cover = computed(() => state.value.page?.cover?.external?.url)
+
+    return { title, state, date, cover }
+  },
+})
+</script>

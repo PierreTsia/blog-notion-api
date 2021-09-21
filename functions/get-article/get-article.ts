@@ -8,14 +8,16 @@ export const handler: Handler = async (event) => {
   const articleId = event.queryStringParameters?.articleId!
 
   try {
-    const article = await notion.blocks.children.list({
+    const blocks = await notion.blocks.children.list({
       block_id: articleId,
       page_size: 100,
     })
 
+    const page = await notion.pages.retrieve({ page_id: articleId })
+
     return {
       statusCode: 200,
-      body: JSON.stringify(article),
+      body: JSON.stringify({ page, blocks }),
     }
   } catch (e) {
     // eslint-disable-next-line no-console
